@@ -8,12 +8,16 @@ import {
   configSchemaFactory as linearManhattanDisplayConfigSchemaFactory,
   stateModelFactory as linearManhattanDisplayModelFactory,
 } from "./LinearManhattanDisplay";
+import {
+  configSchema as HgbAdapterConfigSchema,
+  AdapterClass as HgbAdapterClass,
+} from "./HGBAdapter"
 import svgrendererFactory, { configSchemaFactory as svgFeatureRendererConfigSchema} from './HelloRenderer'
 import BoxRendererType from '@jbrowse/core/pluggableElementTypes/renderers/BoxRendererType'
-
+import HgbDisplay from './HGBDisplay'
 import ArcRenderer, {  configSchema as ArcRendererConfigSchema,  ReactComponent as ArcRendererReactComponent,} from './ArcRenderer'
 export default class AlignmentsPlugin extends Plugin {
-  name = "GWASPlugin";
+  name = "HgbPlugin";
 
   install(pluginManager: PluginManager) {
     const WigglePlugin = pluginManager.getPlugin(
@@ -26,6 +30,34 @@ export default class AlignmentsPlugin extends Plugin {
       XYPlotRendererReactComponent,
       //@ts-ignore
     } = WigglePlugin.exports;
+
+    const LGVPlugin = pluginManager.getPlugin(
+      'LinearGenomeViewPlugin',
+    ) as import('@jbrowse/plugin-linear-genome-view').default
+    const { BaseLinearDisplayComponent } = LGVPlugin.exports;
+
+    pluginManager.addDisplayType(() => {
+      const { configSchema, stateModel } = pluginManager.load(HgbDisplay);
+      return new DisplayType({
+        name: 'HgbDisplay',
+        configSchema,
+        stateModel,
+        trackType: 'HgbTrack',
+        viewType: 'LinearGenomeView',
+        ReactComponent: BaseLinearDisplayComponent,
+      })
+    })
+
+
+    pluginManager.addAdapterType(
+      () =>
+        new AdapterType({
+          name: 'HgbAdapter',
+          configSchema: HgbAdapterConfigSchema,
+          AdapterClass: HgbAdapterClass,
+        }),
+    )
+/*
 
     pluginManager.addDisplayType(() => {
       const configSchema = linearManhattanDisplayConfigSchemaFactory(
@@ -43,7 +75,7 @@ export default class AlignmentsPlugin extends Plugin {
         ReactComponent: LinearWiggleDisplayReactComponent,
       });
     });
-/*
+
     pluginManager.addRendererType(() => {
       //@ts-ignore
       const ManhattanRenderer = new rendererFactory(pluginManager);

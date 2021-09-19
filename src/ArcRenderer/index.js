@@ -19,7 +19,14 @@ import { PrerenderedCanvas } from '@jbrowse/core/ui'
 // Our config schema for arc track will be basic, include just a color
 export const configSchema = ConfigurationSchema(
   'HgbFeatureRenderer',
-  {
+    {
+    base: {
+        type: 'fileLocation',
+        description: 'server URL for the HGB API',
+        defaultValue: {
+            uri: 'http://localhost:4000/',
+        },
+        },
     color: {
       type: 'color',
       description: 'color for the arcs',

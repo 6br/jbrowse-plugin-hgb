@@ -58,7 +58,7 @@
       "displays": [
         {
           "displayId": "gwas_display",
-          "type": "LinearManhattanDisplay"
+          "type": "HgbDisplay"
         }
       ]
     }
