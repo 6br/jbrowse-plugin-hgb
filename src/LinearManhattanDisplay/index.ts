@@ -1,3 +1,4 @@
+
 import PluginManager from "@jbrowse/core/PluginManager";
 
 export function configSchemaFactory(pluginManager: PluginManager) {
@@ -55,14 +56,13 @@ export function configSchemaFactory(pluginManager: PluginManager) {
         description: "draw upside down",
         defaultValue: false,
       },
-
       defaultRendering: {
         type: "stringEnum",
         model: types.enumeration("Rendering", ["density", "xyplot", "line"]),
         defaultValue: "xyplot",
       },
     },
-    { baseConfiguration: baseLinearDisplayConfigSchema, explicitlyTyped: true },
+    { baseConfiguration: baseLinearDisplayConfigSchema, explicitlyTyped: true }, // 
   );
 }
 
@@ -85,10 +85,10 @@ export function stateModelFactory(
       })
       .views(() => ({
         get rendererTypeName() {
-          return "LinearManhattanRenderer";
+          return "HgbFeatureRenderer";
         },
         get needsScalebar() {
-          return true;
+          return false;
         },
       })),
   );

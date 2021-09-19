@@ -39,8 +39,8 @@
     {
       "type": "FeatureTrack",
       "trackId": "gwas_track",
-      "name": "GWAS",
-      "category": ["Annotation"],
+      "name": "HGB",
+      "category": ["Alignment"],
       "assemblyNames": ["hg19"],
       "adapter": {
         "type": "BedTabixAdapter",
