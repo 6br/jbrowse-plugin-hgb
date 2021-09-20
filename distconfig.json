@@ -41,24 +41,15 @@
       "trackId": "hgb_track",
       "name": "GWAS",
       "category": ["Annotation"],
-      "assemblyNames": ["hg19"],
+      "assemblyNames": ["hg38"],
       "adapter": {
-        "type": "BedTabixAdapter",
-        "scoreColumn": "neg_log_pvalue",
-        "bedGzLocation": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/gwas/summary_stats.txt.gz"
-        },
-        "index": {
-          "location": {
-            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/gwas/summary_stats.txt.gz.tbi"
-          },
-          "indexType": "TBI"
-        }
+        "type": "HgbAdapter",
+        "HgbAdapterId": "DefaultHgbAdapterId"
       },
       "displays": [
         {
           "displayId": "hgb_display",
-          "type": "LinearManhattanDisplay"
+          "type": "HgbDisplay"
         }
       ]
     }

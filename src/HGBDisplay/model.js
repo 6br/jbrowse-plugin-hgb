@@ -39,7 +39,7 @@ export default jbrowse => {
           const featureWidget = session.addWidget(
             'AlignmentsFeatureWidget',
             'alignmentFeature',
-            { featureData: feature.toJSON() }, // view: getContainingView(self)
+            { featureData: feature }, // view: getContainingView(self)
           )
           session.showWidget(featureWidget)
           session.setSelection(feature)
@@ -47,7 +47,7 @@ export default jbrowse => {
         },
               // uses copy-to-clipboard and generates notification
       copyFeatureToClipboard(feature) {
-        const copiedFeature = feature.toJSON()
+        const copiedFeature = feature;//.toJSON()
         delete copiedFeature.uniqueId
         const session = getSession(self)
         copy(JSON.stringify(copiedFeature, null, 4))

@@ -53,7 +53,8 @@
           "renderer": {
             "type": "HgbFeatureRenderer",
             "prefix": ""
-          }
+          },
+          "height": 250
         }
       ]
     },
