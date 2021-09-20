@@ -1,6 +1,6 @@
-# jbrowse-plugin-gwas
+# jbrowse-plugin-hgb
 
-Plugin for displaying GWAS results such as manhattan plot renderings
+Plugin for displaying long-read alignments by hgb.
 
 ## Screenshot
 
@@ -15,19 +15,14 @@ Add to the "plugins" of your JBrowse Web config. The unpkg CDN should be stable,
 {
   "plugins": [
     {
-      "name": "gwas",
-      "url": "https://unpkg.com/jbrowse-plugin-gwas/dist/jbrowse-plugin-gwas.umd.production.min.js"
+      "name": "hgb",
+      "url": "https://unpkg.com/jbrowse-plugin-hgb/dist/jbrowse-plugin-hgb.umd.production.min.js"
     }
   ]
 }
 ```
 
 This plugin is currently quite basic, and there is no mouseover interactivity or drawn labels on features
-
-#### Demo
-
-https://jbrowse.org/code/jb2/main/index.html?config=https%3A%2F%2Funpkg.com%2Fjbrowse-plugin-gwas%2Fdist%2Fconfig.json&session=share-iehjT6AoHd&password=lZS7v
-
 
 ### For use in jbrowse/react-linear-genome-view
 

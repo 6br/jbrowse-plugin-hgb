@@ -1,7 +1,7 @@
 
 import { ConfigurationReference } from '@jbrowse/core/configuration'
 import { getParentRenderProps } from '@jbrowse/core/util/tracks'
-//import { getSession } from '@jbrowse/core/util'
+import { getSession } from '@jbrowse/core/util'
 //import FilterListIcon from '@material-ui/icons/FilterList'
 import configSchemaF from './configSchema'
 import { types } from 'mobx-state-tree'
@@ -31,21 +31,30 @@ export default jbrowse => {
         })
         session.showWidget(editor)
       },
-
+      */
+      .actions(self => ({
       selectFeature(feature) {
         if (feature) {
           const session = getSession(self)
           const featureWidget = session.addWidget(
-            'GDCFeatureWidget',
-            'gdcFeature',
-            { featureData: feature.toJSON() },
+            'AlignmentsFeatureWidget',
+            'alignmentFeature',
+            { featureData: feature.toJSON() }, // view: getContainingView(self)
           )
           session.showWidget(featureWidget)
           session.setSelection(feature)
         }
+        },
+              // uses copy-to-clipboard and generates notification
+      copyFeatureToClipboard(feature) {
+        const copiedFeature = feature.toJSON()
+        delete copiedFeature.uniqueId
+        const session = getSession(self)
+        copy(JSON.stringify(copiedFeature, null, 4))
+        session.notify('Copied to clipboard', 'success')
       },
     }))
-*/
+
     .views(self => {
       const {
         renderProps: superRenderProps,

@@ -1,19 +1,19 @@
 {
-  "name": "jbrowse-plugin-gwas",
+  "name": "jbrowse-plugin-hgb",
   "version": "1.0.3",
-  "description": "JBrowse 2 GWAS API plugin",
-  "repository": "github:cmdcolin/jbrowse-plugin-gwas",
+  "description": "JBrowse 2 HGB API plugin",
+  "repository": "github:6br/jbrowse-plugin-hgb",
   "jbrowse-plugin": {
-    "name": "GWAS"
+    "name": "HGB"
   },
   "main": "dist/index.js",
-  "module": "dist/jbrowse-plugin-gwas.esm.js",
+  "module": "dist/jbrowse-plugin-hgb.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "start": "tsdx watch --verbose --noClean --format umd --name JBrowsePluginGWAS --onFirstSuccess \"yarn serve --cors --listen 9000 .\"",
+    "start": "tsdx watch --verbose --noClean --format umd --name JBrowsePluginHGB --onFirstSuccess \"yarn serve --cors --listen 9000 .\"",
     "prebuild": "npm run clean",
-    "build": "tsdx build --format cjs,esm,umd --name JBrowsePluginGWAS && cp distconfig.json dist/config.json",
+    "build": "tsdx build --format cjs,esm,umd --name JBrowsePluginHGB && cp distconfig.json dist/config.json",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "npm run build",
@@ -55,5 +55,8 @@
     "serve": "^11.3.2",
     "tslib": "^2.0.3",
     "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "json-stable-stringify": "^1.0.1"
   }
 }

@@ -2,7 +2,7 @@
   "plugins": [
     {
       "name": "GWAS",
-      "url": "https://unpkg.com/jbrowse-plugin-gwas/dist/jbrowse-plugin-gwas.umd.production.min.js"
+      "url": "https://unpkg.com/jbrowse-plugin-hgb/dist/jbrowse-plugin-hgb.umd.production.min.js"
     }
   ],
   "assemblies": [
@@ -38,7 +38,7 @@
   "tracks": [
     {
       "type": "FeatureTrack",
-      "trackId": "gwas_track",
+      "trackId": "hgb_track",
       "name": "GWAS",
       "category": ["Annotation"],
       "assemblyNames": ["hg19"],
@@ -57,7 +57,7 @@
       },
       "displays": [
         {
-          "displayId": "gwas_display",
+          "displayId": "hgb_display",
           "type": "LinearManhattanDisplay"
         }
       ]

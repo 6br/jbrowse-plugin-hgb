@@ -12,10 +12,10 @@ import {
   configSchema as HgbAdapterConfigSchema,
   AdapterClass as HgbAdapterClass,
 } from "./HGBAdapter"
-import svgrendererFactory, { configSchemaFactory as svgFeatureRendererConfigSchema} from './HelloRenderer'
+//import svgrendererFactory, { configSchemaFactory as svgFeatureRendererConfigSchema} from './HelloRenderer'
 import BoxRendererType from '@jbrowse/core/pluggableElementTypes/renderers/BoxRendererType'
 import HgbDisplay from './HGBDisplay'
-import ArcRenderer, {  configSchema as ArcRendererConfigSchema,  ReactComponent as ArcRendererReactComponent,} from './ArcRenderer'
+import ArcRenderer, {  configSchema as ArcRendererConfigSchema,  ReactComponent as ArcRendererReactComponent,} from './HGBRenderer'
 export default class AlignmentsPlugin extends Plugin {
   name = "HgbPlugin";
 
@@ -25,6 +25,8 @@ export default class AlignmentsPlugin extends Plugin {
     ) as import("@jbrowse/plugin-wiggle").default;
     const DisplayType =
       pluginManager.lib["@jbrowse/core/pluggableElementTypes/DisplayType"];
+    const AdapterType =
+      pluginManager.lib['@jbrowse/core/pluggableElementTypes/AdapterType']
     const {
       LinearWiggleDisplayReactComponent,
       XYPlotRendererReactComponent,
@@ -118,5 +120,4 @@ export default class AlignmentsPlugin extends Plugin {
   
 }
 class SvgaFeatureRenderer extends BoxRendererType {
-  supportsSVG = true
 }
