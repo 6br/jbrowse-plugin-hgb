@@ -13,7 +13,6 @@ const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
 const SetMaxHeightDlg = lazy(() => import("./components/SetMaxHeight"));
 const SetNumOfReadsDlg = lazy(() => import("./components/SetNumOfReads"));
 
-
 export default jbrowse => {
   const configSchema = jbrowse.jbrequire(configSchemaF);
 
@@ -150,14 +149,15 @@ export default jbrowse => {
               self.numOfReads ||
               readConfObject(this.rendererConfig, "numOfReads")
             );
-          }
-        }
+          },
+        };
       })
-    .views(self => {
-      const {
-        renderProps: superRenderProps,
-        trackMenuItems: superTrackMenuItems,
-      } = self;      return {
+      .views(self => {
+        const {
+          renderProps: superRenderProps,
+          trackMenuItems: superTrackMenuItems,
+        } = self;
+        return {
           renderProps() {
             const { colorBy } = self;
             return {
