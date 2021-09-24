@@ -8,6 +8,7 @@ import {
 
 import { PrerenderedCanvas } from "@jbrowse/core/ui";
 //import { bpSpanPx } from '@jbrowse/core/util'
+import { getScale } from "./util";
 
 // Our config schema for arc track will be basic, include just a color
 export const configSchema = ConfigurationSchema(
@@ -49,7 +50,7 @@ export const configSchema = ConfigurationSchema(
     height: {
       type: "number",
       description: "the height of each feature in a pileup alignment",
-      defaultValue: 15,
+      defaultValue: 12,
       contextVariable: ["feature"],
     },
     noSpacing: {
@@ -121,6 +122,7 @@ const handleClick = (event, uri, ref, param, displayModel) => {
             flags: data[0].flag,
             insertion_position: data[1][0],
             insertion_sequence: data[1][1],
+            tags: { SA: data[0].sa },
           });
         }
       });
@@ -138,7 +140,9 @@ function ArcRenderer(renderProps) {
     showCoveragePlot,
     showInsertion,
     //highResolutionScaling,
+    scaleOpts,
     colorBy,
+    filterBy,
     displayModel,
   } = renderProps;
   console.log(
@@ -151,6 +155,7 @@ function ArcRenderer(renderProps) {
   const region = regions[0];
   const width = (region.end - region.start) / bpPerPx;
   //const uri = "http://localhost:4000/"; //
+  console.log(filterBy);
   const uri =
     (readConfObject(config, "base") && readConfObject(config, "base").uri) ||
     "http://localhost:4000/";
@@ -160,7 +165,8 @@ function ArcRenderer(renderProps) {
   const maxHeight = readConfObject(config, "maxHeight") || 2000;
   const numOfFeatures = readConfObject(config, "numOfReads") || 40;
   const noSpacing = readConfObject(config, "noSpacing") || false;
-
+  //const opts = { ...scaleOpts, range: [0, 70], domain: [0, numOfFeatures], autoscaleType: "", scaleType: "linear", inverted: false };
+  //const scale = getScale(opts);
   const range =
     prefix + region.originalRefName + ":" + region.start + "-" + region.end;
   const callbackRange =
@@ -182,6 +188,21 @@ function ArcRenderer(renderProps) {
       track += "%20-I";
     }
     track += "%20-e%20-m" + numOfFeatures;
+
+    if (filterBy) {
+      if (filterBy.flagExclude) {
+        const { flagExclude } = filterBy;
+        track += "%20-(%20" + flagExclude;
+      }
+      if (filterBy.readName && filterBy.readName !== "") {
+        const { readName } = filterBy;
+        track += "%20-)%20" + readName;
+      }
+      if (filterBy.readLength) {
+        const { readLength } = filterBy;
+        track += "%20-M%20" + readLength;
+      }
+    }
 
     // Color configure
     if (colorBy && colorBy.type === "normal") {
@@ -233,6 +254,47 @@ function ArcRenderer(renderProps) {
         }
       >
         <image width={Math.ceil(width)} href={url} />
+        {showCoveragePlot && (
+          <g
+            fill="none"
+            font-size="10"
+            font-family="sans-serif"
+            text-anchor="start"
+            stroke-width="1"
+          >
+            <path stroke="black" d="M6,80H0.5V5H6"></path>
+            <g opacity="1" transform="translate(0,80)">
+              <line stroke="black" x2="6" y1="0.5" y2="0.5"></line>
+              <text fill="black" dy="0.32em" x="9" y="0.5">
+                0
+              </text>
+            </g>
+            <g opacity="1" transform="translate(0,61.25)">
+              <line stroke="black" x2="6" y1="0.5" y2="0.5"></line>
+              <text fill="black" dy="0.32em" x="9" y="0.5">
+                {numOfFeatures / 4}
+              </text>
+            </g>
+            <g opacity="1" transform="translate(0,42.5)">
+              <line stroke="black" x2="6" y1="0.5" y2="0.5"></line>
+              <text fill="black" dy="0.32em" x="9" y="0.5">
+                {numOfFeatures / 2}
+              </text>
+            </g>
+            <g opacity="1" transform="translate(0,23.75)">
+              <line stroke="black" x2="6" y1="0.5" y2="0.5"></line>
+              <text fill="black" dy="0.32em" x="9" y="0.5">
+                {(numOfFeatures / 4) * 3}
+              </text>
+            </g>
+            <g opacity="1" transform="translate(0,5)">
+              <line stroke="black" x2="6" y1="0.5" y2="0.5"></line>
+              <text fill="black" dy="0.32em" x="9" y="0.5">
+                {numOfFeatures}
+              </text>
+            </g>
+          </g>
+        )}
       </svg>
     );
     // "http://localhost:4000/?format=png&prefetch=True&params=-r%20chr1:12222-2333%20-U%20"

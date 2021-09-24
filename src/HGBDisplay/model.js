@@ -3,16 +3,20 @@ import { getParentRenderProps } from "@jbrowse/core/util/tracks";
 import { getSession } from "@jbrowse/core/util";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import configSchemaF from "./configSchema";
-import { types, getEnv } from "mobx-state-tree";
+import { types, getEnv,Instance } from "mobx-state-tree";
 import { lazy } from "react";
 import { readConfObject } from "@jbrowse/core/configuration";
 import PaletteIcon from "@material-ui/icons/Palette";
 import copy from "copy-to-clipboard";
+// import SerializableFilterChain from '@jbrowse/core/pluggableElementTypes/renderers/util/serializableFilterChain'
+
+import FilterListIcon from '@material-ui/icons/ClearAll'
 
 const ColorByTagDlg = lazy(() => import("./components/ColorByTag"));
 const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
 const SetMaxHeightDlg = lazy(() => import("./components/SetMaxHeight"));
 const SetNumOfReadsDlg = lazy(() => import("./components/SetNumOfReads"));
+const FilterByTagDlg = lazy(() => import("./components/FilterByTag"));
 
 export default jbrowse => {
   const configSchema = jbrowse.jbrequire(configSchemaF);
@@ -53,9 +57,10 @@ export default jbrowse => {
           ),
           filterBy: types.optional(
             types.model({
-              flagInclude: types.optional(types.number, 0),
-              flagExclude: types.optional(types.number, 1540),
+              flagInclude: types.optional(types.number),
+              flagExclude: types.optional(types.number),
               readName: types.maybe(types.string),
+              readLength: types.maybe(types.number),
               tagFilter: types.maybe(
                 types.model({ tag: types.string, value: types.string }),
               ),
@@ -95,7 +100,7 @@ export default jbrowse => {
         setColorScheme(colorScheme) {
           self.colorBy = colorScheme;
         },
-        setFilterBy(filte) {
+        setFilterBy(filter) {
           self.filterBy = filter;
         },
         selectFeature(feature) {
@@ -167,8 +172,29 @@ export default jbrowse => {
           trackMenuItems: superTrackMenuItems,
         } = self;
         return {
+          get filters() {
+            /*let filters = []
+            if (self.filterBy) {
+              const { flagInclude, flagExclude } = self.filterBy
+              filters = [
+                `jexl:((get(feature,'flags')&${flagInclude})==${flagInclude}) && !(get(feature,'flags')&${flagExclude})`,
+              ]
+              if (self.filterBy.tagFilter) {
+                const { tag, value } = self.filterBy.tagFilter
+                filters.push(
+                  `jexl:"${value}" =='*' ? getTag(feature,"${tag}") != undefined : getTag(feature,"${tag}") == "${value}"`,
+                )
+              }
+              if (self.filterBy.readName) {
+                const { readName } = self.filterBy
+                filters.push(`jexl:get(feature,'name') == "${readName}"`)
+              }
+            }*/
+            // return new SerializableFilterChain({ filters })
+            return self.filterBy
+          },
           renderProps() {
-            const { colorBy } = self;
+            const { colorBy, filterBy } = self;
             return {
               ...superRenderProps(),
               ...getParentRenderProps(self),
@@ -177,7 +203,11 @@ export default jbrowse => {
               config: self.rendererConfig, //configuration.renderer,
               showCoveragePlot: self.showCoveragePlot,
               showInsertion: self.showInsertion,
+              filterBy,
             };
+          },
+          get needsScalebar() {
+            return self.showCoveragePlot;
           },
 
           get rendererTypeName() {
@@ -256,6 +286,15 @@ export default jbrowse => {
                 ],
               },
               {
+                label: 'Filter by',
+                icon: FilterListIcon,
+                onClick: () => {
+                  getSession(self).setDialogComponent(FilterByTagDlg, {
+                    model: self,
+                  })
+                },
+              },
+              {
                 label: "Set feature height",
                 onClick: () => {
                   getSession(self).setDialogComponent(SetFeatureHeightDlg, {
@@ -282,6 +321,31 @@ export default jbrowse => {
             ];
           },
         };
+      })
+      .actions(self => {
+        const { reload: superReload, renderSvg: superRenderSvg } = self;
+        return {
+          async renderSvg(opts) {
+            console.log("AAAAAAA")
+            await when(() => self.ready && !!self.regionCannotBeRenderedText)
+            const { needsScalebar, stats } = self
+            const { offsetPx } = getContainingView(self)
+            return (
+              <>
+                <g id="snpcov">{await superRenderSvg(opts)}</g>
+                {needsScalebar && stats ? (
+                  <g transform={`translate(${Math.max(-offsetPx, 0)})`}>
+                    <YScaleBar
+                      model={self}
+                      orientation="left"
+                    />
+                  </g>
+                ) : null}
+              </>
+            )
+          }
+        }
+
       })
   );
 };
