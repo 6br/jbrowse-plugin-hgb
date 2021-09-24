@@ -7,6 +7,7 @@ import { types, getEnv } from "mobx-state-tree";
 import { lazy } from "react";
 import { readConfObject } from "@jbrowse/core/configuration";
 import PaletteIcon from "@material-ui/icons/Palette";
+import copy from "copy-to-clipboard";
 
 const ColorByTagDlg = lazy(() => import("./components/ColorByTag"));
 const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
@@ -30,6 +31,7 @@ export default jbrowse => {
           configuration: ConfigurationReference(configSchema),
           showCoveragePlot: types.maybe(types.boolean),
           showInsertion: types.maybe(types.boolean),
+          noSpacing: types.maybe(types.boolean),
           featureHeight: types.maybe(types.number),
           trackMaxHeight: types.maybe(types.number),
           numOfReads: types.maybe(types.number),
@@ -81,6 +83,9 @@ export default jbrowse => {
         setNumOfReads(n) {
           self.numOfReads = n;
         },
+        setNoSpacing(flag) {
+          self.noSpacing = flag;
+        },
         toggleCoveragePlot() {
           self.showCoveragePlot = !self.showCoveragePlot;
         },
@@ -89,6 +94,9 @@ export default jbrowse => {
         },
         setColorScheme(colorScheme) {
           self.colorBy = colorScheme;
+        },
+        setFilterBy(filte) {
+          self.filterBy = filter;
         },
         selectFeature(feature) {
           if (feature) {
@@ -126,6 +134,7 @@ export default jbrowse => {
                 ...configBlob,
                 height: self.featureHeight,
                 maxHeight: this.maxHeight,
+                noSpacing: self.noSpacing,
                 numOfReads: self.numOfReads,
               },
               getEnv(self),

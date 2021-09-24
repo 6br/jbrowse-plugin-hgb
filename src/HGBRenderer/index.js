@@ -44,7 +44,7 @@ export const configSchema = ConfigurationSchema(
       type: "integer",
       description:
         "the maximum number of rows to be used in a pileup rendering",
-      defaultValue: 40,
+      defaultValue: 100,
     },
     height: {
       type: "number",
@@ -54,7 +54,7 @@ export const configSchema = ConfigurationSchema(
     },
     noSpacing: {
       type: "boolean",
-      description: "remove spacing between features",
+      description: "remove insertion marks",
       defaultValue: false,
     },
   },
@@ -85,7 +85,7 @@ const handleClick = (event, uri, ref, param, displayModel) => {
   const ctm = svg.getScreenCTM();
   if (ctm) {
     const cursorPt = pt.matrixTransform(ctm.inverse());
-    console.log(cursorPt);
+    // console.log(cursorPt);
     const url =
       uri +
       "read" +
@@ -114,7 +114,7 @@ const handleClick = (event, uri, ref, param, displayModel) => {
             length_on_ref: data[0].end - data[0].start,
             //template_length: 0,
             seq_length: data[0].query_len,
-            name: data[0].read_id, //'ctgA_3_555_0:0:0_2:0:0_102d',
+            name: data[0].read_id,
             refName: ref,
             //type: 'match',
             id: data[0].read_id,
@@ -137,7 +137,6 @@ function ArcRenderer(renderProps) {
     bpPerPx,
     showCoveragePlot,
     showInsertion,
-    height: unadjustedHeight,
     //highResolutionScaling,
     colorBy,
     displayModel,
@@ -160,76 +159,84 @@ function ArcRenderer(renderProps) {
   const featureHeight = readConfObject(config, "height") || 15;
   const maxHeight = readConfObject(config, "maxHeight") || 2000;
   const numOfFeatures = readConfObject(config, "numOfReads") || 40;
+  const noSpacing = readConfObject(config, "noSpacing") || false;
 
   const range =
     prefix + region.originalRefName + ":" + region.start + "-" + region.end;
   const callbackRange =
     prefix + region.refName + ":" + region.start + "-" + region.end;
-  //const feats = Array.from(features.values());
-  //        const height = readConfObject(config, 'height', { feature })
   if (region.end - region.start <= 10000 && showInsertion) {
-    track += "%20-{";
+    track += "%20-{"; /// Display insertion string
+  } else if (region.end - region.start >= 100000) {
+    track += "%20-c";
   } else if (region.end - region.start >= 1000000) {
+    track += "%20-A";
+  }
+  if (region.end - region.start >= 10000000) {
     return <svg width={width} height={2000}></svg>;
-  }
-  if (showCoveragePlot) {
-    track += "%20-P%20"; //-V%200.3";
-  }
-  track += "%20-m" + numOfFeatures;
+  } else {
+    if (showCoveragePlot) {
+      track += "%20-P%20-V%200.3";
+    }
+    if (noSpacing) {
+      track += "%20-I";
+    }
+    track += "%20-e%20-m" + numOfFeatures;
 
-  // Color configure
-  if (colorBy && colorBy.type === "normal") {
-    track += "%20-0";
-  } else if (colorBy && colorBy.type === "udon") {
-    track += "%20-U";
-  } else if (colorBy && colorBy.type === "motif") {
-    track += "%20-E";
-  } else if (colorBy && colorBy.type === "perBaseQuality") {
-    track += "%20-q";
-  } else if (colorBy && colorBy.type === "tag") {
-    track += "%20-0%20" + colorBy.tag;
-  } else if (colorBy && colorBy.type === "base") {
-    track += "%20-B";
-  }
+    // Color configure
+    if (colorBy && colorBy.type === "normal") {
+      track += "%20-0";
+    } else if (colorBy && colorBy.type === "udon") {
+      track += "%20-U";
+    } else if (colorBy && colorBy.type === "motif") {
+      track += "%20-E";
+    } else if (colorBy && colorBy.type === "perBaseQuality") {
+      track += "%20-q";
+    } else if (colorBy && colorBy.type === "tag") {
+      track += "%20-0%20" + colorBy.tag;
+    } else if (colorBy && colorBy.type === "base") {
+      track += "%20-B";
+    }
 
-  const param =
-    "?format=png&prefetch=True&params=-r%20" +
-    range +
-    "%20-x%20" +
-    Math.ceil(width) +
-    "%20-l%20-y%20" +
-    featureHeight +
-    "%20-%%20-7" +
-    track; // + -%23%20jbrowse%20
-  const callbackParam =
-    "?format=png&prefetch=True&params=-r%20" +
-    callbackRange +
-    "%20-x%20" +
-    Math.ceil(width) +
-    "%20-l%20-y%20" +
-    featureHeight +
-    "%20-%%20-7" +
-    track; // + -%23%20jbrowse%20
-  const url =
-    region.originalRefName === undefined ? uri + callbackParam : uri + param;
-  return (
-    <svg
-      width={Math.ceil(width)}
-      height={maxHeight}
-      onClick={event =>
-        handleClick(
-          event,
-          uri,
-          prefix + region.refName,
-          callbackParam,
-          displayModel,
-        )
-      }
-    >
-      <image width={Math.ceil(width)} /*height={height}*/ href={url} />
-    </svg>
-  );
-  // "http://localhost:4000/?format=png&prefetch=True&params=-r%20chr1:12222-2333%20-U%20"
+    const param =
+      "?format=png&prefetch=True&params=-r%20" +
+      range +
+      "%20-x%20" +
+      Math.ceil(width) +
+      "%20-l%20-y%20" +
+      featureHeight +
+      "%20-%%20-7" +
+      track; // + -%23%20jbrowse%20
+    const callbackParam =
+      "?format=png&prefetch=True&params=-r%20" +
+      callbackRange +
+      "%20-x%20" +
+      Math.ceil(width) +
+      "%20-l%20-y%20" +
+      featureHeight +
+      "%20-%%20-7" +
+      track; // + -%23%20jbrowse%20
+    const url =
+      region.originalRefName === undefined ? uri + callbackParam : uri + param;
+    return (
+      <svg
+        width={Math.ceil(width)}
+        height={maxHeight}
+        onClick={event =>
+          handleClick(
+            event,
+            uri,
+            prefix + region.refName,
+            callbackParam,
+            displayModel,
+          )
+        }
+      >
+        <image width={Math.ceil(width)} href={url} />
+      </svg>
+    );
+    // "http://localhost:4000/?format=png&prefetch=True&params=-r%20chr1:12222-2333%20-U%20"
+  }
 }
 
 export default observer(ArcRenderer);

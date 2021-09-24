@@ -77,7 +77,7 @@ function SetFeatureHeightDlg(props: {
                 onChange={() => setNoSpacing(val => !val)}
               />
             }
-            label="Remove spacing between features in y-direction?"
+            label="Remove insertion marks on each read?"
           />
 
           <Button
@@ -90,7 +90,7 @@ function SetFeatureHeightDlg(props: {
               model.setFeatureHeight(
                 height !== '' && !Number.isNaN(+height) ? +height : undefined,
               )
-              //model.setNoSpacing(noSpacing)
+              model.setNoSpacing(noSpacing)
 
               handleClose()
             }}
