@@ -28,7 +28,7 @@ export const configSchema = ConfigurationSchema(
     },
     track: {
       type: "string",
-      description: "the track to select data from",
+      description: "the additional parameters to pass hgb",
       defaultValue: "",
     },
     prefix: {
@@ -111,6 +111,7 @@ const handleClick = (event, uri, ref, param, displayModel) => {
             //qual:
             //  '17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17',
             MQ: data[0].mapq,
+            CIGAR: data[0].cigar,
             //CIGAR: '100M',
             length_on_ref: data[0].end - data[0].start,
             //template_length: 0,
@@ -140,10 +141,11 @@ function ArcRenderer(renderProps) {
     showCoveragePlot,
     showInsertion,
     //highResolutionScaling,
-    scaleOpts,
+    showAlleleFreq,
     colorBy,
     filterBy,
     displayModel,
+    nonce,
   } = renderProps;
   console.log(
     showCoveragePlot,
@@ -154,7 +156,6 @@ function ArcRenderer(renderProps) {
   );
   const region = regions[0];
   const width = (region.end - region.start) / bpPerPx;
-  //const uri = "http://localhost:4000/"; //
   console.log(filterBy);
   const uri =
     (readConfObject(config, "base") && readConfObject(config, "base").uri) ||
@@ -165,8 +166,7 @@ function ArcRenderer(renderProps) {
   const maxHeight = readConfObject(config, "maxHeight") || 2000;
   const numOfFeatures = readConfObject(config, "numOfReads") || 40;
   const noSpacing = readConfObject(config, "noSpacing") || false;
-  //const opts = { ...scaleOpts, range: [0, 70], domain: [0, numOfFeatures], autoscaleType: "", scaleType: "linear", inverted: false };
-  //const scale = getScale(opts);
+  const nonceValue = nonce || 0;
   const range =
     prefix + region.originalRefName + ":" + region.start + "-" + region.end;
   const callbackRange =
@@ -182,12 +182,15 @@ function ArcRenderer(renderProps) {
     return <svg width={width} height={2000}></svg>;
   } else {
     if (showCoveragePlot) {
-      track += "%20-P%20-V%200.3";
+      track += "%20-P";
+      if (showAlleleFreq) {
+        track += "%20-V%200.0";
+      }
     }
     if (noSpacing) {
       track += "%20-I";
     }
-    track += "%20-e%20-m" + numOfFeatures;
+    track += "%20-e%20-m%20" + numOfFeatures + "%20-}%20" + nonceValue;
 
     if (filterBy) {
       if (filterBy.flagExclude) {
@@ -202,11 +205,17 @@ function ArcRenderer(renderProps) {
         const { readLength } = filterBy;
         track += "%20-M%20" + readLength;
       }
+      if (filterBy.onlySplit) {
+        track += "%20-u";
+      }
+      if (filterBy.excludeSplit) {
+        track += "%20-3";
+      }
     }
 
     // Color configure
     if (colorBy && colorBy.type === "normal") {
-      track += "%20-0";
+      track += "%20-n";
     } else if (colorBy && colorBy.type === "udon") {
       track += "%20-U";
     } else if (colorBy && colorBy.type === "motif") {
@@ -227,7 +236,7 @@ function ArcRenderer(renderProps) {
       "%20-l%20-y%20" +
       featureHeight +
       "%20-%%20-7" +
-      track; // + -%23%20jbrowse%20
+      track;
     const callbackParam =
       "?format=png&prefetch=True&params=-r%20" +
       callbackRange +
@@ -236,7 +245,7 @@ function ArcRenderer(renderProps) {
       "%20-l%20-y%20" +
       featureHeight +
       "%20-%%20-7" +
-      track; // + -%23%20jbrowse%20
+      track;
     const url =
       region.originalRefName === undefined ? uri + callbackParam : uri + param;
     return (

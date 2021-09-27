@@ -1,16 +1,17 @@
 import { ConfigurationReference, getConf } from "@jbrowse/core/configuration";
 import { getParentRenderProps } from "@jbrowse/core/util/tracks";
 import { getSession } from "@jbrowse/core/util";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import configSchemaF from "./configSchema";
 import { types, getEnv,Instance } from "mobx-state-tree";
 import { lazy } from "react";
 import { readConfObject } from "@jbrowse/core/configuration";
 import PaletteIcon from "@material-ui/icons/Palette";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import FilterListIcon from '@material-ui/icons/ClearAll'
+import RefreshIcon from '@material-ui/icons/Refresh';
 import copy from "copy-to-clipboard";
 // import SerializableFilterChain from '@jbrowse/core/pluggableElementTypes/renderers/util/serializableFilterChain'
 
-import FilterListIcon from '@material-ui/icons/ClearAll'
 
 const ColorByTagDlg = lazy(() => import("./components/ColorByTag"));
 const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
@@ -34,11 +35,13 @@ export default jbrowse => {
           type: types.literal("HgbDisplay"),
           configuration: ConfigurationReference(configSchema),
           showCoveragePlot: types.maybe(types.boolean),
+          showAlleleFreq: types.maybe(types.boolean),
           showInsertion: types.maybe(types.boolean),
           noSpacing: types.maybe(types.boolean),
           featureHeight: types.maybe(types.number),
           trackMaxHeight: types.maybe(types.number),
           numOfReads: types.maybe(types.number),
+          nonce: 0,
           sortedBy: types.maybe(
             types.model({
               type: types.string,
@@ -61,6 +64,8 @@ export default jbrowse => {
               flagExclude: types.optional(types.number),
               readName: types.maybe(types.string),
               readLength: types.maybe(types.number),
+              onlySplit: types.maybe(types.boolean),
+              excludeSplit: types.maybe(types.boolean),
               tagFilter: types.maybe(
                 types.model({ tag: types.string, value: types.string }),
               ),
@@ -91,8 +96,14 @@ export default jbrowse => {
         setNoSpacing(flag) {
           self.noSpacing = flag;
         },
+        updateNonce() {
+          self.nonce += 1;
+        },
         toggleCoveragePlot() {
           self.showCoveragePlot = !self.showCoveragePlot;
+        },
+        toggleAlleleFreq() {
+          self.showAlleleFreq = !self.showAlleleFreq;
         },
         toggleInsertion() {
           self.showInsertion = !self.showInsertion;
@@ -203,6 +214,8 @@ export default jbrowse => {
               config: self.rendererConfig, //configuration.renderer,
               showCoveragePlot: self.showCoveragePlot,
               showInsertion: self.showInsertion,
+              showAlleleFreq: self.showAlleleFreq,
+              nonce: self.nonce,
               filterBy,
             };
           },
@@ -218,12 +231,28 @@ export default jbrowse => {
             return [
               ...superTrackMenuItems(),
               {
+                label: "Refresh",
+                icon: RefreshIcon,
+                onClick: () => {
+                  self.updateNonce();
+                },
+              },
+              {
                 label: "Show coverage plot",
                 icon: VisibilityIcon,
                 type: "checkbox",
                 checked: self.showCoveragePlot,
                 onClick: () => {
                   self.toggleCoveragePlot();
+                },
+              },
+              {
+                label: "Show allele frequency",
+                icon: VisibilityIcon,
+                type: "checkbox",
+                checked: self.showAlleleFreq,
+                onClick: () => {
+                  self.toggleAlleleFreq();
                 },
               },
               {
@@ -311,7 +340,7 @@ export default jbrowse => {
                 },
               },
               {
-                label: "Set max reads",
+                label: "Set max coverage",
                 onClick: () => {
                   getSession(self).setDialogComponent(SetNumOfReadsDlg, {
                     model: self,
