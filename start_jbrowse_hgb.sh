@@ -1,6 +1,7 @@
 #!/bin/bash
 
-SERVER=${1:-0.0.0.0:4000}
+HOST=`hostname`:4000
+SERVER=${1:-$HOST}
 
 if ! command -v jbrowse &> /dev/null
 then
@@ -10,9 +11,7 @@ fi
 jbrowse create ./jbrowse
 
 cp config38.json ./jbrowse
-sed -i
-
 cd ./jbrowse
-
+sed -e "s/0.0.0.0:4000/$SERVER/g" -i.bak config38.json
 
 npx serve .
