@@ -12,6 +12,22 @@ Plugin for displaying long-read alignments by hgb.
 * Rust (cargo)
 * Node.js
 
+## Getting Stated
+
+The input bam file needs to be attached MD tags by `samtools calmd` and indexed by `samtools index`.
+
+### STEP1: Serve HGB server
+
+```bash
+bash -x start_hgb_server.sh
+```
+
+### STEP2: Start JBrowse2
+
+```bash
+bash -x 
+```
+
 ## Usage in jbrowse-web
 
 Add to the "plugins" of your JBrowse Web config. The unpkg CDN should be stable, or you can download the js file to your server
