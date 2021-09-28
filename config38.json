@@ -52,7 +52,10 @@
           "type": "HgbDisplay",
           "renderer": {
             "type": "HgbFeatureRenderer",
-            "prefix": ""
+            "prefix": "",
+            "base": {
+              "uri": "http://localhost:4000/"
+            }
           },
           "height": 250
         }

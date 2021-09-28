@@ -40,6 +40,7 @@
       "type": "AlignmentsTrack",
       "trackId": "HG002",
       "name": "JBrowse2",
+      "category": ["Alignment"],
       "assemblyNames": [
         "hg38"
       ],
@@ -64,7 +65,7 @@
           }
         }
       }
-    }
+    },
     {
       "type": "FeatureTrack",
       "trackId": "hgb_track",
@@ -81,7 +82,10 @@
           "type": "HgbDisplay",
           "renderer": {
             "type": "HgbFeatureRenderer",
-            "prefix": ""
+            "prefix": "",
+            "base": {
+              "uri": "http://localhost:4000/"
+            }
           },
           "height": 250
         }

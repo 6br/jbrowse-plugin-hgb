@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+
 import { observer } from "mobx-react";
 import {
   ConfigurationSchema,
@@ -112,7 +113,6 @@ const handleClick = (event, uri, ref, param, displayModel) => {
             //  '17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17',
             MQ: data[0].mapq,
             CIGAR: data[0].cigar,
-            //CIGAR: '100M',
             length_on_ref: data[0].end - data[0].start,
             //template_length: 0,
             seq_length: data[0].query_len,
@@ -129,6 +129,18 @@ const handleClick = (event, uri, ref, param, displayModel) => {
       });
   }
 };
+
+const logging = (uri, param, prefix, region) => {
+  const leftRegion =
+  prefix + region.refName + ":" + (region.start - 8196) + "-" + (region.end - 8196);
+  let left = uri + param + leftRegion;
+  fetch(left);
+  const rightRegion =
+  prefix + region.refName + ":" + (region.start + 8196) + "-" + (region.end + 8196);
+  let right = uri + param + rightRegion;
+  fetch(right);
+};
+
 
 // Our ArcRenderer class does the main work in it's render method
 // which draws to a canvas and returns the results in a React component
@@ -246,12 +258,32 @@ function ArcRenderer(renderProps) {
       featureHeight +
       "%20-%%20-7" +
       track;
+    const prefetchParam =
+      "?format=png&prefetch=True&params=-x%20" +
+      Math.ceil(width) +
+      "%20-l%20-y%20" +
+      featureHeight +
+      "%20-%%20-7" +
+      track + "%20-r%20";
     const url =
       region.originalRefName === undefined ? uri + callbackParam : uri + param;
+
+    const iconRef = useRef(null);
+
+    useEffect(() => {
+      const iconElement = iconRef.current;
+      iconElement.addEventListener("load", logging);
+      return () => {
+        iconElement.removeEventListener("load", logging);
+      };
+    }, []);
+
     return (
       <svg
         width={Math.ceil(width)}
         height={maxHeight}
+        ref={iconRef}
+        onLoad={event => logging(uri, prefetchParam, prefix, region)}
         onClick={event =>
           handleClick(
             event,
