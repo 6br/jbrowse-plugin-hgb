@@ -51,7 +51,7 @@ export const configSchema = ConfigurationSchema(
     height: {
       type: "number",
       description: "the height of each feature in a pileup alignment",
-      defaultValue: 12,
+      defaultValue: 10,
       contextVariable: ["feature"],
     },
     noSpacing: {

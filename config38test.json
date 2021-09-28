@@ -47,21 +47,21 @@
       "adapter": {
         "type": "BamAdapter",
         "bamLocation": {
-          "uri": "HG002_GRCh38_ONT-UL_GIAB_20200204.bam.md.bam"
+          "uri": "http://localhost:5000/HG002_GRCh38_ONT-UL_GIAB_20200204.bam.md.bam"
         },
         "index": {
           "location": {
-            "uri": "HG002_GRCh38_ONT-UL_GIAB_20200204.bam.md.bam.bai"
+            "uri": "http://localhost:5000/HG002_GRCh38_ONT-UL_GIAB_20200204.bam.md.bam.bai"
           },
           "indexType": "BAI"
         },
         "sequenceAdapter": {
           "type": "IndexedFastaAdapter",
           "fastaLocation": {
-            "uri": "hg38.fa"
+            "uri": "http://localhost:5000/hg38.fa"
           },
           "faiLocation": {
-            "uri": "hg38.fa.fai"
+            "uri": "http://localhost:5000/hg38.fa.fai"
           }
         }
       }

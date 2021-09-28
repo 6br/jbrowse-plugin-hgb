@@ -256,7 +256,7 @@ export default jbrowse => {
                 },
               },
               {
-                label: "Show insertion sequecnce",
+                label: "Show insertion sequence",
                 icon: VisibilityIcon,
                 type: "checkbox",
                 checked: self.showInsertion,
@@ -350,31 +350,6 @@ export default jbrowse => {
             ];
           },
         };
-      })
-      .actions(self => {
-        const { reload: superReload, renderSvg: superRenderSvg } = self;
-        return {
-          async renderSvg(opts) {
-            console.log("AAAAAAA")
-            await when(() => self.ready && !!self.regionCannotBeRenderedText)
-            const { needsScalebar, stats } = self
-            const { offsetPx } = getContainingView(self)
-            return (
-              <>
-                <g id="snpcov">{await superRenderSvg(opts)}</g>
-                {needsScalebar && stats ? (
-                  <g transform={`translate(${Math.max(-offsetPx, 0)})`}>
-                    <YScaleBar
-                      model={self}
-                      orientation="left"
-                    />
-                  </g>
-                ) : null}
-              </>
-            )
-          }
-        }
-
       })
   );
 };

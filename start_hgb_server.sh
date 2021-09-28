@@ -12,7 +12,7 @@ fi
 
 ### 2. check hgb
 
-if [ -f "$HGB" ]; then
+if [ ! -f "$HGB" ]; then
 hgb -t $THREADS build $HGB -a $BAM
 fi
 
