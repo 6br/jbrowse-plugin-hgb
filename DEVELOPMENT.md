@@ -1,7 +1,7 @@
 ## If you are developing this plugin
 
 ```
-git clone https://github.com/cmdcolin/jbrowse-plugin-hgb.git
+git clone https://github.com/6br/jbrowse-plugin-hgb.git
 cd jbrowse-plugin-hgb
 yarn
 yarn start
@@ -28,7 +28,7 @@ import {
   JBrowseLinearGenomeView,
   ThemeProvider,
 } from "@jbrowse/react-linear-genome-view";
-import GWAS from "jbrowse-plugin-hgb";
+import HGB from "jbrowse-plugin-hgb";
 
 const theme = createJBrowseTheme();
 
@@ -40,7 +40,7 @@ function View() {
     tracks: [
       /* tracks */
     ],
-    plugins: [GWAS],
+    plugins: [HGB],
   });
   return (
     <ThemeProvider theme={theme}>

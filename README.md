@@ -7,6 +7,11 @@ Plugin for displaying long-read alignments by hgb.
 ![](img/1.png)
 ![](img/2.png)
 
+## Prerequisites
+
+* Rust (cargo)
+* Node.js
+
 ## Usage in jbrowse-web
 
 Add to the "plugins" of your JBrowse Web config. The unpkg CDN should be stable, or you can download the js file to your server
