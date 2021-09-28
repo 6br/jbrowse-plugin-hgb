@@ -19,13 +19,17 @@ The input bam file needs to be attached MD tags by `samtools calmd` and indexed 
 ### STEP1: Serve HGB server
 
 ```bash
-bash -x start_hgb_server.sh
+bash -x start_hgb_server.sh $NUM_OF_THREADS $LOCATION_OF_BAM
+bash -x start_hgb_server.sh $NUM_OF_THREADS $LOCATION_OF_BAM 0.0.0.0:5000
 ```
 
 ### STEP2: Start JBrowse2
 
+The following command needs to run on another shell.
+
 ```bash
-bash -x 
+bash -x start_jbrowse_hgb.sh 
+bash -x start_jbrowse_hgb.sh $HGB_SERVER_URL
 ```
 
 ## Usage in jbrowse-web
