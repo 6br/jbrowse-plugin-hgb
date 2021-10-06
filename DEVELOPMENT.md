@@ -9,7 +9,7 @@ yarn start
 
 Then open JBrowse Web to (assuming it is running on port 3000):
 
-http://localhost:3000/?config=http://localhost:9000/config.json
+http://localhost:3000/?config=http://localhost:9000/config38.json
 
 ## If you want to use in [@jbrowse/react-linear-genome-view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view)
 

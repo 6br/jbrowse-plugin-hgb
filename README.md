@@ -29,8 +29,11 @@ The following command needs to run on another shell.
 
 ```bash
 bash -x start_jbrowse_hgb.sh 
-bash -x start_jbrowse_hgb.sh $HGB_SERVER_URL
+bash -x start_jbrowse_hgb.sh $HGB_SERVER_URL 38
+bash -x start_jbrowse_hgb.sh $HGB_SERVER_URL 19
 ```
+
+You can specify reference genome as the second argument as 38 or 19 (hg38 or hg19, respectively).
 
 ## Usage in jbrowse-web
 

@@ -44,7 +44,10 @@
       "assemblyNames": ["hg38"],
       "adapter": {
         "type": "HgbAdapter",
-        "HgbAdapterId": "DefaultHgbAdapterId"
+        "HgbAdapterId": "DefaultHgbAdapterId",
+        "base": {
+          "uri": "http://localhost:4000/"
+        }
       },
       "displays": [
         {
@@ -52,10 +55,7 @@
           "type": "HgbDisplay",
           "renderer": {
             "type": "HgbFeatureRenderer",
-            "prefix": "",
-            "base": {
-              "uri": "http://localhost:4000/"
-            }
+            "prefix": ""
           },
           "height": 250
         }

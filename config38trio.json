@@ -37,39 +37,9 @@
   ],
   "tracks": [
     {
-      "type": "AlignmentsTrack",
-      "trackId": "HG002",
-      "name": "JBrowse2",
-      "category": ["Alignment"],
-      "assemblyNames": [
-        "hg38"
-      ],
-      "adapter": {
-        "type": "BamAdapter",
-        "bamLocation": {
-          "uri": "http://localhost:5000/HG002_GRCh38_ONT-UL_GIAB_20200204.bam.md.bam"
-        },
-        "index": {
-          "location": {
-            "uri": "http://localhost:5000/HG002_GRCh38_ONT-UL_GIAB_20200204.bam.md.bam.bai"
-          },
-          "indexType": "BAI"
-        },
-        "sequenceAdapter": {
-          "type": "IndexedFastaAdapter",
-          "fastaLocation": {
-            "uri": "http://localhost:5000/hg38.fa"
-          },
-          "faiLocation": {
-            "uri": "http://localhost:5000/hg38.fa.fai"
-          }
-        }
-      }
-    },
-    {
       "type": "FeatureTrack",
-      "trackId": "hgb_track",
-      "name": "HGB",
+      "trackId": "hgb_track1",
+      "name": "HG002",
       "category": ["Alignment"],
       "assemblyNames": ["hg38"],
       "adapter": {
@@ -81,7 +51,57 @@
       },
       "displays": [
         {
-          "displayId": "hgb_display",
+          "displayId": "hgb_display1",
+          "type": "HgbDisplay",
+          "renderer": {
+            "type": "HgbFeatureRenderer",
+            "prefix": ""
+          },
+          "height": 250
+        }
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "hgb_track2",
+      "name": "HG003",
+      "category": ["Alignment"],
+      "assemblyNames": ["hg38"],
+      "adapter": {
+        "type": "HgbAdapter",
+        "HgbAdapterId": "DefaultHgbAdapterId",
+        "base": {
+          "uri": "http://localhost:4001/"
+        }
+      },
+      "displays": [
+        {
+          "displayId": "hgb_display2",
+          "type": "HgbDisplay",
+          "renderer": {
+            "type": "HgbFeatureRenderer",
+            "prefix": ""
+          },
+          "height": 250
+        }
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "hgb_track3",
+      "name": "HG004",
+      "category": ["Alignment"],
+      "assemblyNames": ["hg38"],
+      "adapter": {
+        "type": "HgbAdapter",
+        "HgbAdapterId": "DefaultHgbAdapterId",
+        "base": {
+          "uri": "http://localhost:4002/"
+        }
+      },
+      "displays": [
+        {
+          "displayId": "hgb_display3",
           "type": "HgbDisplay",
           "renderer": {
             "type": "HgbFeatureRenderer",

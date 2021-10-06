@@ -9,7 +9,7 @@ import {
 
 import { PrerenderedCanvas } from "@jbrowse/core/ui";
 //import { bpSpanPx } from '@jbrowse/core/util'
-import { getScale } from "./util";
+//import { getScale } from "./util";
 
 // Our config schema for arc track will be basic, include just a color
 export const configSchema = ConfigurationSchema(
@@ -19,13 +19,8 @@ export const configSchema = ConfigurationSchema(
       type: "fileLocation",
       description: "server URL for the HGB API",
       defaultValue: {
-        uri: "http://localhost:4000/",
+        uri: "/url/to/hgb/server/",
       },
-    },
-    color: {
-      type: "color",
-      description: "color for the arcs",
-      defaultValue: "darkblue",
     },
     track: {
       type: "string",
@@ -147,6 +142,7 @@ const logging = (uri, param, prefix, region) => {
 function ArcRenderer(renderProps) {
   const {
     //features,
+    adapterConfig,
     config,
     regions,
     bpPerPx,
@@ -168,10 +164,10 @@ function ArcRenderer(renderProps) {
   );
   const region = regions[0];
   const width = (region.end - region.start) / bpPerPx;
-  console.log(filterBy);
   const uri =
-    (readConfObject(config, "base") && readConfObject(config, "base").uri) ||
+    (readConfObject(adapterConfig, "base") && readConfObject(adapterConfig, "base").uri) ||
     "http://localhost:4000/";
+  console.log(readConfObject(config, "base"))
   let track = ""; // readConfObject(config, 'track');
   const prefix = readConfObject(config, "prefix") || "chr";
   const featureHeight = readConfObject(config, "height") || 15;
