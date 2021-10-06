@@ -1,0 +1,65 @@
+{
+  "plugins": [
+    {
+      "name": "HGB",
+      "url": "http://localhost:9000/dist/jbrowse-plugin-hgb.umd.development.js"
+    }
+  ],
+  "assemblies": [
+    {
+      "name": "hg19",
+      "aliases": ["GRCh37"],
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "Pd8Wh30ei9R",
+        "adapter": {
+          "type": "BgzipFastaAdapter",
+          "fastaLocation": {
+            "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+          },
+          "faiLocation": {
+            "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
+          },
+          "gziLocation": {
+            "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
+          }
+        }
+      },
+      "refNameAliases": {
+        "adapter": {
+          "type": "RefNameAliasAdapter",
+          "location": {
+            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+          }
+        }
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "hgb_track",
+      "name": "HGB",
+      "category": ["Alignment"],
+      "assemblyNames": ["hg19"],
+      "adapter": {
+        "type": "HgbAdapter",
+        "HgbAdapterId": "DefaultHgbAdapterId",
+        "base": {
+          "uri": "http://localhost:4000/"
+        }
+      },
+      "displays": [
+        {
+          "displayId": "hgb_display",
+          "type": "HgbDisplay",
+          "renderer": {
+            "type": "HgbFeatureRenderer",
+            "prefix": ""
+          }
+        }
+      ]
+    }
+  ],
+  "configuration": {    "disableAnalytics": true  }
+}
