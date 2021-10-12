@@ -46,7 +46,7 @@ export const configSchema = ConfigurationSchema(
     height: {
       type: "number",
       description: "the height of each feature in a pileup alignment",
-      defaultValue: 10,
+      defaultValue: 8,
       contextVariable: ["feature"],
     },
     noSpacing: {
@@ -126,16 +126,26 @@ const handleClick = (event, uri, ref, param, displayModel) => {
 };
 
 const logging = (uri, param, prefix, region) => {
+  const diff = region.start - region.end;
   const leftRegion =
-  prefix + region.refName + ":" + (region.start - 8196) + "-" + (region.end - 8196);
+    prefix +
+    region.refName +
+    ":" +
+    (region.start - diff) +
+    "-" +
+    (region.end - diff);
   let left = uri + param + leftRegion;
   fetch(left);
   const rightRegion =
-  prefix + region.refName + ":" + (region.start + 8196) + "-" + (region.end + 8196);
+    prefix +
+    region.refName +
+    ":" +
+    (region.start + diff) +
+    "-" +
+    (region.end + diff);
   let right = uri + param + rightRegion;
   fetch(right);
 };
-
 
 // Our ArcRenderer class does the main work in it's render method
 // which draws to a canvas and returns the results in a React component
@@ -165,10 +175,12 @@ function ArcRenderer(renderProps) {
   const region = regions[0];
   const width = (region.end - region.start) / bpPerPx;
   const uri =
-    (readConfObject(adapterConfig, "base") && readConfObject(adapterConfig, "base").uri) ||
+    (readConfObject(adapterConfig, "base") &&
+      readConfObject(adapterConfig, "base").uri) ||
     "http://localhost:4000/";
-  console.log(readConfObject(config, "base"))
-  let track = ""; // readConfObject(config, 'track');
+  console.log(readConfObject(config, "base"));
+  // let track = ""; // readConfObject(config, 'track');
+  let track = readConfObject(adapterConfig, "track") || "";
   const prefix = readConfObject(config, "prefix") || "chr";
   const featureHeight = readConfObject(config, "height") || 15;
   const maxHeight = readConfObject(config, "maxHeight") || 2000;
@@ -236,31 +248,18 @@ function ArcRenderer(renderProps) {
       track += "%20-B";
     }
 
-    const param =
-      "?format=png&prefetch=True&params=-r%20" +
-      range +
-      "%20-x%20" +
-      Math.ceil(width) +
-      "%20-l%20-y%20" +
-      featureHeight +
-      "%20-%%20-7" +
-      track;
-    const callbackParam =
-      "?format=png&prefetch=True&params=-r%20" +
-      callbackRange +
-      "%20-x%20" +
-      Math.ceil(width) +
-      "%20-l%20-y%20" +
-      featureHeight +
-      "%20-%%20-7" +
-      track;
-    const prefetchParam =
+    const baseParam =
       "?format=png&prefetch=True&params=-x%20" +
       Math.ceil(width) +
       "%20-l%20-y%20" +
       featureHeight +
       "%20-%%20-7" +
-      track + "%20-r%20";
+      track +
+      "%20-r%20";
+
+    const param = baseParam + range;
+    const callbackParam = baseParam + callbackRange;
+    const prefetchParam = baseParam;
     const url =
       region.originalRefName === undefined ? uri + callbackParam : uri + param;
 

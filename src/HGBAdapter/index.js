@@ -19,7 +19,7 @@ import {
       },
       track: {
         type: 'string',
-        description: 'the track to select data from',
+        description: 'the additional parameters to pass hgb',
         defaultValue: '',
       },
     },
