@@ -97,6 +97,7 @@ const handleClick = (event, uri, ref, param, displayModel) => {
         if (data) {
           displayModel.selectFeature({
             //  session.widget.setFeatureData({
+            sampleName: data[0].track,
             //refName: region.refName,
             //seq:
             //  'TTGTTGCGGAGTTGAACAACGGCATTAGGAACACTTCCGTCTCTCACTTTTATACGATTATGATTGGTTCTTTAGCCTTGGTTTAGATTGGTAGTAGTAG',
@@ -259,7 +260,6 @@ function ArcRenderer(renderProps) {
 
     const param = baseParam + range;
     const callbackParam = baseParam + callbackRange;
-    const prefetchParam = baseParam;
     const url =
       region.originalRefName === undefined ? uri + callbackParam : uri + param;
 
@@ -278,7 +278,7 @@ function ArcRenderer(renderProps) {
         width={Math.ceil(width)}
         height={maxHeight}
         ref={iconRef}
-        onLoad={event => logging(uri, prefetchParam, prefix, region)}
+        onLoad={event => logging(uri, baseParam, prefix, region)}
         onClick={event =>
           handleClick(
             event,
