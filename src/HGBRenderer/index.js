@@ -247,6 +247,8 @@ function ArcRenderer(renderProps) {
       track += "%20-0%20" + colorBy.tag;
     } else if (colorBy && colorBy.type === "base") {
       track += "%20-B";
+    } else if (colorBy && colorBy.type === "track") {
+      track += "%20-?";
     }
 
     const baseParam =

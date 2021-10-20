@@ -19,6 +19,7 @@ export default pluginManager => {
           "motif",
           "perBaseQuality",
           "tag",
+          "track",
         ]),
         description: "color scheme to use",
         defaultValue: "strand",
