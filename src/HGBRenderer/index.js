@@ -194,12 +194,14 @@ function ArcRenderer(renderProps) {
     prefix + region.refName + ":" + region.start + "-" + region.end;
   if (region.end - region.start <= 10000 && showInsertion) {
     track += "%20-{"; /// Display insertion string
-  } else if (region.end - region.start >= 100000) {
-    track += "%20-c";
+  } else if (region.end - region.start >= 5000000) {
+    track += "%20-A"; // Only coverage
   } else if (region.end - region.start >= 1000000) {
-    track += "%20-A";
+    track += "%20-c"; // Do not display cigars
+  } else if (region.end - region.start >= 50000) {
+    track += "%20-I"; // Do not display insertions
   }
-  if (region.end - region.start >= 10000000) {
+  if (region.end - region.start >= 20000000) {
     return <svg width={width} height={2000}></svg>;
   } else {
     if (showCoveragePlot) {
