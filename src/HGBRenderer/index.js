@@ -82,7 +82,7 @@ const handleClick = (event, uri, ref, param, displayModel) => {
   const ctm = svg.getScreenCTM();
   if (ctm) {
     const cursorPt = pt.matrixTransform(ctm.inverse());
-    // console.log(cursorPt);
+    // console.log(cursorPt);w
     const url =
       uri +
       "read" +
@@ -194,18 +194,18 @@ function ArcRenderer(renderProps) {
     prefix + region.refName + ":" + region.start + "-" + region.end;
   if (region.end - region.start <= 10000 && showInsertion) {
     track += "%20-{"; /// Display insertion string
-  } else if (region.end - region.start >= 5000000) {
-    track += "%20-A"; // Only coverage
   } else if (region.end - region.start >= 1000000) {
+    track += "%20-A"; // Only coverage
+  } else if (region.end - region.start >= 500000) {
     track += "%20-c"; // Do not display cigars
   } else if (region.end - region.start >= 50000) {
     track += "%20-I"; // Do not display insertions
   }
-  if (region.end - region.start >= 20000000) {
+  if (region.end - region.start >= 2000000) {
     return <svg width={width} height={2000}></svg>;
   } else {
     if (showCoveragePlot) {
-      track += "%20-P";
+      track += "%20-P%20-*";
       if (showAlleleFreq) {
         track += "%20-V%200.0";
       }
