@@ -13,7 +13,7 @@ COPY . .
 
 RUN yarn install && yarn build
 
-FROM node:lts-alpine3.13
+FROM node:lts
 
 RUN npm install -g @gmod/jbrowse-cli \
   && jbrowse --version
@@ -22,7 +22,7 @@ RUN jbrowse create static
 
 EXPOSE 9000
 
-WORKDIR /app/static
+WORKDIR /app
 
 COPY --from=stage /app/hgb /app/hgb
 
