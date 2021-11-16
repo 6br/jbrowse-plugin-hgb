@@ -19,10 +19,12 @@ RUN apt-get update && apt-get install -y nodejs npm \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/* \
     && npm install -g @gmod/jbrowse-cli \
-    && jbrowse --version \
     && rm -r /app/static
 
-RUN jbrowse create static
+RUN jbrowse create static --nightly
+
+#RUN git clone https://github.com/GMOD/jbrowse-components.git static \
+#  && cd static && yarn
 
 EXPOSE 9000
 
