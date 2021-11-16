@@ -166,21 +166,19 @@ function ArcRenderer(renderProps) {
     displayModel,
     nonce,
   } = renderProps;
-  console.log(
+  /*console.log(
     showCoveragePlot,
     renderProps,
     colorBy,
     config,
     readConfObject(config, "height"),
-  );
+  );*/
   const region = regions[0];
   const width = (region.end - region.start) / bpPerPx;
   const uri =
     (readConfObject(adapterConfig, "base") &&
       readConfObject(adapterConfig, "base").uri) ||
     "http://localhost:4000/";
-  console.log(readConfObject(config, "base"));
-  // let track = ""; // readConfObject(config, 'track');
   let track = readConfObject(adapterConfig, "track") || "";
   const prefix = readConfObject(config, "prefix") || "chr";
   const featureHeight = readConfObject(config, "height") || 15;
