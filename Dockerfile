@@ -28,6 +28,9 @@ EXPOSE 9000
 
 COPY config38demo.json /app/static/
 
+COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.development.js /app/static/jbrowse-plugin-hgb.umd.development.js
+COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.development.js.map /app/static/jbrowse-plugin-hgb.umd.development.js.map
+
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js /app/static/jbrowse-plugin-hgb.umd.production.min.js
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js.map /app/static/jbrowse-plugin-hgb.umd.production.min.js.map
 
