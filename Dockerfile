@@ -6,7 +6,7 @@ USER root
 
 WORKDIR /app
 
-RUN apk --no-cache add --virtual .gyp g++ gcc libgcc libstdc++ linux-headers make python3 pkgconfig pixman-dev cairo-dev && \
+RUN apk --no-cache add --virtual .gyp g++ gcc libgcc libstdc++ linux-headers make python3 pkgconfig pixman-dev cairo-dev pango-dev && \
   npm install --quiet node-gyp -g
 
 COPY . .
