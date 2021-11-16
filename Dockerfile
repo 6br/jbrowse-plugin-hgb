@@ -26,7 +26,7 @@ RUN jbrowse create static
 
 EXPOSE 9000
 
-COPY config38demo.json /app/static/
+COPY config38demo.json /app/static/config.json
 
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.development.js /app/static/jbrowse-plugin-hgb.umd.development.js
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.development.js.map /app/static/jbrowse-plugin-hgb.umd.development.js.map
