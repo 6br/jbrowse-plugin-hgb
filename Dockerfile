@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install && npm run build
+RUN yarn install && yarn build
 
 FROM node:lts-alpine3.13
 
