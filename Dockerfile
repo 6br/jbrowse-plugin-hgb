@@ -1,5 +1,3 @@
-FROM 6thbridge/hgb:buffer_trait as stage
-
 FROM node:lts-alpine3.13 as build
 
 USER root
@@ -13,18 +11,22 @@ COPY . .
 
 RUN yarn install && yarn build
 
-FROM node:lts
+FROM 6thbridge/hgb:buffer_trait
 
-RUN npm install -g @gmod/jbrowse-cli \
-  && jbrowse --version
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y nodejs npm \
+    && apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && npm install -g @gmod/jbrowse-cli \
+    && jbrowse --version \
+    && rm -r /app/static
 
 RUN jbrowse create static
 
 EXPOSE 9000
 
-WORKDIR /app
-
-COPY --from=stage /app/hgb /app/hgb
+#COPY --from=stage /app/hgb /app/hgb
 
 COPY config38.json /app/static/
 
