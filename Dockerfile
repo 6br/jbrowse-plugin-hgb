@@ -23,7 +23,7 @@ WORKDIR /static
 
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js /static/dist
 
-COPY --from=stage /app/target/release/hgb /
+COPY --from=stage /app/hgb /
 
 COPY config38.json /static/
 
