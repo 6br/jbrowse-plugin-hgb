@@ -6,7 +6,7 @@ USER root
 
 WORKDIR /app
 
-RUN apk --no-cache add --virtual g++ gcc libgcc libstdc++ linux-headers make python && \
+RUN apk --no-cache add --virtual g++ gcc libgcc libstdc++ linux-headers make python2 && \
   npm install --quiet node-gyp -g &&\
   npm install --quiet && \
   apk del native-deps
