@@ -17,5 +17,5 @@ fi
 #fi
 
 ### 3. serve hgb rest server
-hgb -t $THREADS vis -a $BAM -w $SERVER -S -R chr1:1-100000 -Y 80 -r chr1:1-1001 -W '->' '-#' jbrowse -P '-%'
+hgb -t $THREADS vis -a $BAM -w $SERVER -S -R chr1:1-100000 -Y 80 -r chr1:1-1001 -W '->' '-#' jbrowse -P '-%' '-*'
 
