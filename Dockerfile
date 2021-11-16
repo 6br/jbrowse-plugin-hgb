@@ -26,10 +26,9 @@ RUN jbrowse create static
 
 EXPOSE 9000
 
-#COPY --from=stage /app/hgb /app/hgb
-
 COPY config38demo.json /app/static/
 
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js /app/static/jbrowse-plugin-hgb.umd.production.min.js
+COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js.map /app/static/jbrowse-plugin-hgb.umd.production.min.js.map
 
 ENTRYPOINT ["/app/hgb", "-t", "4", "vis", "-w", "0.0.0.0:9000", "-S", "-R", "chr1:1-100000", "-Y", "80", "-r", "chr1:1-1001", "-W","->", "-#", "jbrowse", "-P", "-%", "-*", "-.", "/app/static", "-a"]
