@@ -24,7 +24,7 @@ EXPOSE 9000
 
 WORKDIR /app/static
 
-COPY --from=stage /app/hgb /app
+COPY --from=stage /app/hgb /app/hgb
 
 COPY config38.json /app/static/
 
