@@ -28,8 +28,8 @@ EXPOSE 9000
 
 #COPY --from=stage /app/hgb /app/hgb
 
-COPY config38.json /app/static/
+COPY config38demo.json /app/static/
 
-COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js /app/static/dist
+COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js /app/static/dist/jbrowse-plugin-hgb.umd.production.min.js
 
-ENTRYPOINT ["/app/hgb", "-t", "4", "vis", "-w", "0.0.0.0:9000", "-S", "-R", "chr1:1-100000", "-Y", "80", "-r", "chr1:1-1001", "-W","->", "-#", "jbrowse", "-P", "-%", "-*", "-a"]
+ENTRYPOINT ["/app/hgb", "-t", "4", "vis", "-w", "0.0.0.0:9000", "-S", "-R", "chr1:1-100000", "-Y", "80", "-r", "chr1:1-1001", "-W","->", "-#", "jbrowse", "-P", "-%", "-*", "-.", "/app/static", "-a"]
