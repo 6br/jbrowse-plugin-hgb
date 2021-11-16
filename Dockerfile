@@ -6,7 +6,7 @@ USER root
 
 WORKDIR /app
 
-RUN apk --no-cache add --virtual g++ gcc libgcc libstdc++ linux-headers make python3 pkgconfig && \
+RUN apk --no-cache add --virtual g++ gcc libgcc libstdc++ linux-headers make python3 pkgconfig native-deps pixman-dev && \
   npm install --quiet node-gyp -g
 
 COPY . .
