@@ -2,7 +2,7 @@
   "plugins": [
     {
       "name": "HGB",
-      "url": "http://localhost:9000/dist/jbrowse-plugin-hgb.umd.development.js"
+      "url": "http://localhost:9000/static/dist/jbrowse-plugin-hgb.umd.development.js"
     }
   ],
   "assemblies": [
