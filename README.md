@@ -4,7 +4,7 @@
 
 JBrowse2 plugin for displaying long-read alignments by hgb.
 
-## Screenshot
+## Screenshots
 
 ![](img/1.png)
 ![](img/2.png)
