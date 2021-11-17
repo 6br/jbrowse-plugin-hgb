@@ -18,8 +18,6 @@ Plugin for displaying long-read alignments by hgb.
 
 The input bam file needs to be attached MD tags by `samtools calmd` and indexed by `samtools index`.
 
-For a single bam file, docker demo can be 
-
 * Docker
 
 ```bash
@@ -32,6 +30,8 @@ docker run --rm -ti -p 9000:9000 -v `pwd`:/data 6thbridge/jbrowse2-hgb:master /d
 singularity build jb2-hgb.sif docker://6thbridge/jbrowse2-hgb:master
 singularity -s run jb2-hgb.sif <input.bam>
 ```
+
+Access to `http://localhost:9000/static/index.html`.
 
 ## Manual Deploy
 
