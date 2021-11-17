@@ -1,6 +1,6 @@
 {
   "name": "jbrowse-plugin-hgb",
-  "version": "1.0.3",
+  "version": "0.1.0",
   "description": "JBrowse 2 HGB API plugin",
   "repository": "github:6br/jbrowse-plugin-hgb",
   "jbrowse-plugin": {
