@@ -58,9 +58,8 @@ function SetFeatureHeightDlg(props: {
       </DialogTitle>
       <DialogContent>
         <Typography>
-          Adjust the feature height and whether there is any spacing between
-          features. Setting feature height to 1 and removing spacing makes the
-          display very compact
+          Adjust the feature height and whether there is an insertion mark. 
+          Setting feature height to 1 or 2 makes the display very compact
         </Typography>
         <div className={classes.root}>
           <Typography>Enter feature height: </Typography>
