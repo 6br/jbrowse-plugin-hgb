@@ -3,26 +3,26 @@ import { getParentRenderProps } from "@jbrowse/core/util/tracks";
 import { getSession } from "@jbrowse/core/util";
 import configSchemaF from "./configSchema";
 import { types, getEnv } from "mobx-state-tree";
-//import { lazy } from "react";
+import { lazy } from "react";
 import { readConfObject } from "@jbrowse/core/configuration";
 import PaletteIcon from "@material-ui/icons/Palette";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import FilterListIcon from '@material-ui/icons/ClearAll'
-import RefreshIcon from '@material-ui/icons/Refresh';
+import FilterListIcon from "@material-ui/icons/ClearAll";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import copy from "copy-to-clipboard";
 // import SerializableFilterChain from '@jbrowse/core/pluggableElementTypes/renderers/util/serializableFilterChain'
 
-//const ColorByTagDlg = lazy(() => import("./components/ColorByTag"));
-//const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
-//const SetMaxHeightDlg = lazy(() => import("./components/SetMaxHeight"));
-//const SetNumOfReadsDlg = lazy(() => import("./components/SetNumOfReads"));
-//const FilterByTagDlg = lazy(() => import("./components/FilterByTag"));
+const ColorByTagDlg = lazy(() => import("./components/ColorByTag"));
+const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
+const SetMaxHeightDlg = lazy(() => import("./components/SetMaxHeight"));
+const SetNumOfReadsDlg = lazy(() => import("./components/SetNumOfReads"));
+const FilterByTagDlg = lazy(() => import("./components/FilterByTag"));
 
-import ColorByTagDlg from "./components/ColorByTag";
-import SetFeatureHeightDlg from "./components/SetFeatureHeight";
-import SetMaxHeightDlg from "./components/SetMaxHeight";
-import SetNumOfReadsDlg from "./components/SetNumOfReads";
-import FilterByTagDlg from "./components/FilterByTag";  
+//import ColorByTagDlg from "./components/ColorByTag";
+//import SetFeatureHeightDlg from "./components/SetFeatureHeight";
+//import SetMaxHeightDlg from "./components/SetMaxHeight";
+//import SetNumOfReadsDlg from "./components/SetNumOfReads";
+//import FilterByTagDlg from "./components/FilterByTag";
 
 export default jbrowse => {
   const configSchema = jbrowse.jbrequire(configSchemaF);
@@ -207,7 +207,15 @@ export default jbrowse => {
               }
             }*/
             // return new SerializableFilterChain({ filters })
-            return self.filterBy
+            return self.filterBy;
+          },
+
+          get needsScalebar() {
+            return self.showCoveragePlot;
+          },
+
+          get rendererTypeName() {
+            return "HgbFeatureRenderer"; //self.configuration.renderer.type
           },
           renderProps() {
             const { colorBy, filterBy } = self;
@@ -224,14 +232,6 @@ export default jbrowse => {
               filterBy,
             };
           },
-          get needsScalebar() {
-            return self.showCoveragePlot;
-          },
-
-          get rendererTypeName() {
-            return "HgbFeatureRenderer"; //self.configuration.renderer.type
-          },
-
           trackMenuItems() {
             return [
               ...superTrackMenuItems(),
@@ -320,36 +320,40 @@ export default jbrowse => {
                 ],
               },
               {
-                label: 'Filter by',
+                label: "Filter by",
                 icon: FilterListIcon,
                 onClick: () => {
-                  getSession(self).setDialogComponent(FilterByTagDlg, {
-                    model: self,
-                  })
+                  getSession(self).queueDialog(doneCallback => [
+                    FilterByTagDlg,
+                    { model: self, handleClose: doneCallback },
+                  ]);
                 },
               },
               {
                 label: "Set feature height",
                 onClick: () => {
-                  getSession(self).setDialogComponent(SetFeatureHeightDlg, {
-                    model: self,
-                  });
+                  getSession(self).queueDialog(doneCallback => [
+                    SetFeatureHeightDlg,
+                    { model: self, handleClose: doneCallback },
+                  ]);
                 },
               },
               {
                 label: "Set max height",
                 onClick: () => {
-                  getSession(self).setDialogComponent(SetMaxHeightDlg, {
-                    model: self,
-                  });
+                  getSession(self).queueDialog(doneCallback => [
+                    SetMaxHeightDlg,
+                    { model: self, handleClose: doneCallback },
+                  ]);
                 },
               },
               {
                 label: "Set max coverage",
                 onClick: () => {
-                  getSession(self).setDialogComponent(SetNumOfReadsDlg, {
-                    model: self,
-                  });
+                  getSession(self).queueDialog(doneCallback => [
+                    SetNumOfReadsDlg,
+                    { model: self, handleClose: doneCallback },
+                  ]);
                 },
               },
             ];
