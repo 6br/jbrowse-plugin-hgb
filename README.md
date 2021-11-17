@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/6br/jbrowse-plugin-hgb/actions/workflows/ci.yml/badge.svg)](https://github.com/6br/jbrowse-plugin-hgb/actions/workflows/ci.yml)
 
-Plugin for displaying long-read alignments by hgb.
+JBrowse2 plugin for displaying long-read alignments by hgb.
 
 ## Screenshot
 
