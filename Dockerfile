@@ -24,9 +24,6 @@ RUN apt-get update && apt-get install -y nodejs npm \
 
 RUN jbrowse create static
 
-#RUN git clone https://github.com/GMOD/jbrowse-components.git static \
-#  && cd static && yarn
-
 EXPOSE 9000
 
 COPY config38demo.json /app/static/config.json
@@ -37,4 +34,4 @@ COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.development.js.map /app/stati
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js /app/static/jbrowse-plugin-hgb.umd.production.min.js
 COPY --from=build /app/dist/jbrowse-plugin-hgb.umd.production.min.js.map /app/static/jbrowse-plugin-hgb.umd.production.min.js.map
 
-ENTRYPOINT ["/app/hgb", "-t", "1", "vis", "-w", "0.0.0.0:9000", "-S", "-R", "chr1:1-100000", "-Y", "80", "-r", "chr1:1-1001", "-W","->", "-#", "jbrowse", "-P", "-%", "-*", "-.", "/app/static", "-a"]
+ENTRYPOINT ["/app/hgb", "-t", "4", "vis", "-w", "0.0.0.0:9000", "-S", "-R", "chr1:1-100000", "-Y", "80", "-r", "chr1:1-1001", "-W","->", "-#", "jbrowse", "-P", "-%", "-*", "-.", "/app/static", "-a"]
