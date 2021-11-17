@@ -1,29 +1,18 @@
-name: automatic release
+name: Node.js Package
 on:
-  push:
-    branches:
-      - master
-jobs:
   release:
-    name: check version, add tag and release
+    types: [created]
+jobs:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v1
-      - name: setup Node
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: 10.x
+          node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - name: install can-npm-publish and dependencies
-        run: |
-          npm install can-npm-publish
-          npm ci
-      - name: test
-        run: npm run test
-      - name: build
-        run: npm run build
-      - name: release
-        run: npm publish
+          scope: '@6br'
+      - run: yarn
+      - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
