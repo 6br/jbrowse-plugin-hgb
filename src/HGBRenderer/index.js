@@ -208,7 +208,7 @@ function ArcRenderer(renderProps) {
           style={{ fill: "black", fillOpacity: 0.12 }}
           y="4"
         ></rect>
-        <text fill="black" dy="0.32em" x={width / 4} y="30">
+        <text fill="black" dy="0.32em" x={width / 4} y="27">
           Zoom in to see features
         </text>
       </svg>
