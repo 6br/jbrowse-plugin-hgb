@@ -2,8 +2,8 @@ import { ConfigurationReference, getConf } from "@jbrowse/core/configuration";
 import { getParentRenderProps } from "@jbrowse/core/util/tracks";
 import { getSession } from "@jbrowse/core/util";
 import configSchemaF from "./configSchema";
-import { types, getEnv,Instance } from "mobx-state-tree";
-import { lazy } from "react";
+import { types, getEnv } from "mobx-state-tree";
+//import { lazy } from "react";
 import { readConfObject } from "@jbrowse/core/configuration";
 import PaletteIcon from "@material-ui/icons/Palette";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -12,12 +12,17 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import copy from "copy-to-clipboard";
 // import SerializableFilterChain from '@jbrowse/core/pluggableElementTypes/renderers/util/serializableFilterChain'
 
+//const ColorByTagDlg = lazy(() => import("./components/ColorByTag"));
+//const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
+//const SetMaxHeightDlg = lazy(() => import("./components/SetMaxHeight"));
+//const SetNumOfReadsDlg = lazy(() => import("./components/SetNumOfReads"));
+//const FilterByTagDlg = lazy(() => import("./components/FilterByTag"));
 
-const ColorByTagDlg = lazy(() => import("./components/ColorByTag"));
-const SetFeatureHeightDlg = lazy(() => import("./components/SetFeatureHeight"));
-const SetMaxHeightDlg = lazy(() => import("./components/SetMaxHeight"));
-const SetNumOfReadsDlg = lazy(() => import("./components/SetNumOfReads"));
-const FilterByTagDlg = lazy(() => import("./components/FilterByTag"));
+import ColorByTagDlg from "./components/ColorByTag";
+import SetFeatureHeightDlg from "./components/SetFeatureHeight";
+import SetMaxHeightDlg from "./components/SetMaxHeight";
+import SetNumOfReadsDlg from "./components/SetNumOfReads";
+import FilterByTagDlg from "./components/FilterByTag";  
 
 export default jbrowse => {
   const configSchema = jbrowse.jbrequire(configSchemaF);
