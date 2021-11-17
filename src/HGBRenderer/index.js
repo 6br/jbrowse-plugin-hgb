@@ -5,11 +5,8 @@ import {
   ConfigurationSchema,
   readConfObject,
 } from "@jbrowse/core/configuration";
-// import SimpleFeature from '@jbrowse/core/util/simpleFeature'
 
 import { PrerenderedCanvas } from "@jbrowse/core/ui";
-//import { bpSpanPx } from '@jbrowse/core/util'
-//import { getScale } from "./util";
 
 // Our config schema for arc track will be basic, include just a color
 export const configSchema = ConfigurationSchema(
@@ -347,7 +344,6 @@ function ArcRenderer(renderProps) {
         )}
       </svg>
     );
-    // "http://localhost:4000/?format=png&prefetch=True&params=-r%20chr1:12222-2333%20-U%20"
   }
 }
 
