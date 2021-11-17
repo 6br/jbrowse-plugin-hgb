@@ -85,7 +85,7 @@ const handleClick = (event, uri, ref, param, displayModel) => {
     // console.log(cursorPt);w
     const url =
       uri +
-      "read" +
+      "/read" +
       param +
       "&x=" +
       parseInt(cursorPt.x) +
@@ -200,7 +200,19 @@ function ArcRenderer(renderProps) {
     track += "%20-I"; // Do not display insertions
   }
   if (region.end - region.start >= 2000000) {
-    return <svg width={width} height={2000}></svg>;
+    return (
+      <svg width={width} height={2000}>
+        <rect
+          width={width}
+          height="43"
+          style={{ fill: "black", fillOpacity: 0.12 }}
+          y="4"
+        ></rect>
+        <text fill="black" dy="0.32em" x={width / 4} y="30">
+          Zoom in to see features
+        </text>
+      </svg>
+    );
   } else {
     if (showCoveragePlot) {
       track += "%20-P%20-*";

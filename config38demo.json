@@ -48,7 +48,7 @@
         "base": {
           "uri": "http://localhost:9000/static/api"
         },
-        "track" : "%20-?"
+        "track" : ""
       },
       "displays": [
         {
