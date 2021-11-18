@@ -11,7 +11,7 @@ COPY . .
 
 RUN yarn install && yarn build
 
-FROM 6thbridge/hgb:buffer_trait
+FROM 6thbridge/hgb:master
 
 WORKDIR /app
 
