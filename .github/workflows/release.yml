@@ -12,6 +12,8 @@ jobs:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
           scope: '@6br'
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y node-gyp
       - run: yarn
       - run: yarn publish
         env:
