@@ -6,13 +6,13 @@ JBrowse2 plugin for displaying long-read alignments by hgb.
 
 ## Screenshots
 
+![](img/3.gif)
 ![](img/1.png)
 ![](img/2.png)
-![](img/3.gif)
 
 ## Prerequisites
 
-* Rust (cargo)
+* Rust nightly (cargo)
 * Node.js
 
 ## Getting Started
