@@ -145,9 +145,9 @@ const logging = (uri, param, prefix, region) => {
   fetch(right);
 };
 
-// Our ArcRenderer class does the main work in it's render method
+// Our HgbRenderer class does the main work in it's render method
 // which draws to a canvas and returns the results in a React component
-function ArcRenderer(renderProps) {
+function HgbRenderer(renderProps) {
   const {
     //features,
     adapterConfig,
@@ -158,6 +158,8 @@ function ArcRenderer(renderProps) {
     showInsertion,
     //highResolutionScaling,
     showAlleleFreq,
+    showReadId,
+    linkSupplement,
     colorBy,
     filterBy,
     displayModel,
@@ -217,8 +219,14 @@ function ArcRenderer(renderProps) {
         track += "%20-V%200.0";
       }
     }
+    if (showReadId) {
+      track += "%20-H";
+    }
     if (noSpacing) {
       track += "%20-I";
+    }
+    if (linkSupplement) {
+      track += "%20-s";
     }
     track += "%20-e%20-m%20" + numOfFeatures + "%20-}%20" + nonceValue;
 
@@ -347,4 +355,4 @@ function ArcRenderer(renderProps) {
   }
 }
 
-export default observer(ArcRenderer);
+export default observer(HgbRenderer);

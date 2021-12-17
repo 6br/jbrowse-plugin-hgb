@@ -15,7 +15,7 @@ import {
 //import svgrendererFactory, { configSchemaFactory as svgFeatureRendererConfigSchema} from './HelloRenderer'
 import BoxRendererType from '@jbrowse/core/pluggableElementTypes/renderers/BoxRendererType'
 import HgbDisplay from './HGBDisplay'
-import ArcRenderer, {  configSchema as ArcRendererConfigSchema,  ReactComponent as ArcRendererReactComponent,} from './HGBRenderer'
+import HgbRenderer, {  configSchema as HgbRendererConfigSchema,  ReactComponent as HgbRendererReactComponent,} from './HGBRenderer'
 export default class AlignmentsPlugin extends Plugin {
   name = "HgbPlugin";
 
@@ -111,8 +111,8 @@ export default class AlignmentsPlugin extends Plugin {
       //@ts-ignore
       return new SvgaFeatureRenderer({
         name: 'HgbFeatureRenderer',
-        ReactComponent: ArcRenderer,
-        configSchema: ArcRendererConfigSchema,
+        ReactComponent: HgbRenderer,
+        configSchema: HgbRendererConfigSchema,
         pluginManager,
       })
     })

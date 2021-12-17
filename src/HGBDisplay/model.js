@@ -8,6 +8,7 @@ import { readConfObject } from "@jbrowse/core/configuration";
 import PaletteIcon from "@material-ui/icons/Palette";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import FilterListIcon from "@material-ui/icons/ClearAll";
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import RefreshIcon from "@material-ui/icons/Refresh";
 import copy from "copy-to-clipboard";
 
@@ -34,6 +35,7 @@ export default jbrowse => {
         showCoveragePlot: types.maybe(types.boolean),
         showAlleleFreq: types.maybe(types.boolean),
         showInsertion: types.maybe(types.boolean),
+        showReadId: types.maybe(types.boolean),
         noSpacing: types.maybe(types.boolean),
         featureHeight: types.maybe(types.number),
         trackMaxHeight: types.maybe(types.number),
@@ -84,7 +86,7 @@ export default jbrowse => {
         self.noSpacing = flag;
       },
       updateNonce() {
-        self.nonce += 1;
+        self.nonce = Math.floor(Math.random() * ((999999 - 1) + 1)) + 1;
       },
       toggleCoveragePlot() {
         self.showCoveragePlot = !self.showCoveragePlot;
@@ -94,6 +96,12 @@ export default jbrowse => {
       },
       toggleInsertion() {
         self.showInsertion = !self.showInsertion;
+      },
+      toggleReadId() {
+        self.showReadId = !self.showReadId;
+      },
+      toggleLinkSupplement() {
+        self.linkSupplement = !self.linkSupplement;
       },
       setColorScheme(colorScheme) {
         self.colorBy = colorScheme;
@@ -189,6 +197,8 @@ export default jbrowse => {
             config: self.rendererConfig,
             showCoveragePlot: self.showCoveragePlot,
             showInsertion: self.showInsertion,
+            showReadId: self.showReadId,
+            linkSupplement: self.linkSupplement,
             showAlleleFreq: self.showAlleleFreq,
             nonce: self.nonce,
             filterBy,
@@ -229,6 +239,24 @@ export default jbrowse => {
               checked: self.showInsertion,
               onClick: () => {
                 self.toggleInsertion();
+              },
+            },
+            {
+              label: "Show read name",
+              icon: VisibilityIcon,
+              type: "checkbox",
+              checked: self.showReadId,
+              onClick: () => {
+                self.toggleReadId();
+              },
+            },
+            {
+              label: "Link supplementary alignments",
+              icon: CompareArrowsIcon,
+              type: "checkbox",
+              checked: self.linkSupplement,
+              onClick: () => {
+                self.toggleLinkSupplement();
               },
             },
             {
