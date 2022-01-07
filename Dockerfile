@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.13 as build
+FROM node:lts-alpine as build
 
 USER root
 
